@@ -1,5 +1,5 @@
 # LF Traffic Light Controller
-Build an Lingua Franca-based traffic light controller!
+Build an Lingua Franca-based traffic light controller! Go directly to the exercises [here](Exercises.md)
 
 ![](doc/image.png)
 
@@ -67,7 +67,10 @@ git pull
 make all
 ```
 
+VScode will be installed with the Lingua Franca extension so you can interact with the auto-synthesized diagrams.
 
 
+## Exercises
+Now that your setup is done and verified you can move on to the actual [exercises](Exercises.md)
 
 
