@@ -36,7 +36,7 @@ jobs:
           git clone --recursive https://github.com/lf-lang/lingua-franca.git
           cd lingua-franca
           ./gradlew assemble
-          cp build/install/lf-cli/bin/lfc /usr/local/bin
+          echo "export PATH=$GITHUB_WORKSPACE/lingua-franca/build/install/lf-cli/bin" >> $GITHUB_ENV
         if: matrix.os == 'macos-latest'
         
       - name: Build examples
