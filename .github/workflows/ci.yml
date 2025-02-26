@@ -1,0 +1,43 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ci:
+    name: ci
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+            submodules: recursive
+
+      - name: Install LF toolchain (ubuntu)
+        uses: lf-lang/action-setup-lf@v0.2
+        with:
+          lfc-version: nightly
+          lingo-version: stable
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Install LF toolchain (mac)
+        run: |
+          git clone --recursive https://github.com/lf-lang/lingua-franca.git
+          cd lingua-franca
+          ./gradlew assemble
+          cp build/install/lingua-franca/bin/lfc /usr/local/bin
+        if: matrix.os == 'macos-latest'
+        
+      - name: Build examples
+        run: make all

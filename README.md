@@ -1,12 +1,14 @@
 # LF Traffic Light Controller
 Build an Lingua Franca-based traffic light controller!
 
+![](doc/image.png)
+
 ## Prerequisits
 - A Linux or MacOS OS (or download THIS VM) #TODO:
 - git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`
-- Java 17 (or greater) (`sudo apt install open-jdk-17` or `brew install openjdk@17`)
+- Java 17 (or greater) (`sudo apt install openjdk-17-jdk` or `brew install openjdk@17`)
 
 ## Getting started (native)
 
@@ -15,6 +17,14 @@ Build an Lingua Franca-based traffic light controller!
 ```sh
 curl -Ls https://install.lf-lang.org | bash -s cli
 ```
+
+This will install `lfc` to `$HOME/.local/bin`, make sure this is on your system path, e.g. by 
+adding the following to the end of your `~/.bashrc`
+
+```bash
+export PATH=$PATH:$HOME/.local/bin
+```
+
 
 ### Clone this repo
 
@@ -32,6 +42,16 @@ git clone https://github.com/erlingrj/lf-traffic-light.git
 ```sh
 make all
 ```
+
+### Editor support (optional)
+Although any text editor will work, we recommend to use VSCode. A Lingua Franca extension can be
+installed either by searching for "Lingua Franca" on the Extension Marketplace, or run the following
+command from a terminal
+
+```sh
+code --install-extension lf-lang.vscode-lingua-franca
+```
+
 
 ## Getting started (VM)
 Download the Ubuntu24.04 VM here, username and password is both `ubuntu`.
