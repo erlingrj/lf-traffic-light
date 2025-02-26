@@ -1,0 +1,16 @@
+target C
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor Controller {
+  input ped_request:bool
+  output ped_color: int
+  output car_color: int
+
+  reaction(startup) -> ped_color, car_color {=
+    lf_set(ped_color, STATE_RED);
+    lf_set(car_color, STATE_GREEN);
+  =}
+}

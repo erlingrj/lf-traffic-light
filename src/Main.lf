@@ -1,0 +1,16 @@
+target C {
+  keepalive: false,
+  files: "lib/traffic_light.h"
+}
+
+import PedestrianTrafficLightInteractive, CarTrafficLight from "./lib/TrafficLight.lf"
+import Controller from "./Controller.lf"
+
+main reactor {
+  ped_light = new PedestrianTrafficLightInteractive()
+  car_light = new CarTrafficLight()
+  controller = new Controller()
+
+  ped_light.request -> controller.ped_request
+  controller.ped_color, controller.car_color -> ped_light.color, car_light.color
+}

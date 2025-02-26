@@ -1,0 +1,46 @@
+target C
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor Controller {
+  input ped_request:bool
+  output ped_color: int
+  output car_color: int
+
+  logical action set_pedestrian_light: int
+  logical action set_car_light: int
+
+  state pedestrian_waiting: bool = false;
+
+  reaction(startup) -> ped_color, car_color {=
+    lf_set(ped_color, STATE_RED);
+    lf_set(car_color, STATE_GREEN);
+  =}
+
+  reaction(ped_request) -> set_car_light, set_pedestrian_light, ped_color, car_color {=
+    if (self->pedestrian_waiting) {
+      return;
+    }
+
+    self->pedestrian_waiting = true;
+
+    lf_schedule_int(set_car_light, SEC(1), STATE_RED);
+    lf_schedule_int(set_pedestrian_light, SEC(2), STATE_GREEN);
+    lf_schedule_int(set_pedestrian_light, SEC(12), STATE_RED);
+    lf_schedule_int(set_car_light, SEC(13), STATE_GREEN);
+
+  =}
+
+  reaction(set_pedestrian_light) -> ped_color {=
+    lf_set(ped_color, set_pedestrian_light->value);
+    if (ped_color->value == STATE_RED) {
+      self->pedestrian_waiting = false;
+    }
+  =}
+
+  reaction(set_car_light) -> car_color {=
+    lf_set(car_color, set_car_light->value);
+  =}
+}

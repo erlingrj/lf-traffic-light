@@ -1,0 +1,66 @@
+target C {
+  keepalive: false,
+  build-type: Debug,
+  fast: true
+}
+
+import PedestrianTrafficLight, CarTrafficLight from "../lib/TrafficLight.lf"
+import TestHarness from "../lib/TestHarness.lf"
+import Controller from "../Controller.lf"
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor TestHarness1 extends TestHarness {
+
+  reaction(startup) -> ped_request {=
+    lf_set(ped_request, true);
+  =}
+
+  state cnt: int = 0
+  state last_event_time: time = 0
+
+  reaction(ped_color, car_color) {=
+    interval_t time_since_last_change = lf_time_logical() - self->last_event_time;
+    switch(self->cnt) {
+      case 0:
+        validate(car_color->value == STATE_GREEN);
+        validate(ped_color->value == STATE_RED);
+        break;
+      case 1:
+        validate(car_color->value == STATE_RED);
+        validate(ped_color->value == STATE_RED);
+        break;
+      case 2:
+        validate(car_color->value == STATE_RED);
+        validate(ped_color->value == STATE_GREEN);
+        validate(time_since_last_change == SEC(1));
+        break;
+      case 3:
+        validate(car_color->value == STATE_RED);
+        validate(ped_color->value == STATE_RED);
+        validate(time_since_last_change == SEC(10));
+        break;
+      case 4:
+        validate(car_color->value == STATE_GREEN);
+        validate(ped_color->value == STATE_RED);
+        validate(time_since_last_change == SEC(1));
+        break;
+    }
+    self->cnt++;
+    self->last_event_time = lf_time_logical();
+  =}
+}
+
+main reactor {
+  ped_light = new PedestrianTrafficLight()
+  car_light = new CarTrafficLight()
+  controller = new Controller()
+  test_harness = new TestHarness1()
+
+  ped_light.request -> controller.ped_request
+  controller.ped_color, controller.car_color -> ped_light.color, car_light.color
+  controller.ped_color, controller.car_color -> test_harness.ped_color, test_harness.car_color
+  test_harness.ped_request -> ped_light.ped_request
+} 

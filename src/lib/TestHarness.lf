@@ -1,0 +1,16 @@
+target C
+
+
+reactor TestHarness {
+  input ped_color:int
+  input car_color:int
+  output ped_request:bool
+
+  preamble {=
+    #define validate(expr) \
+    do { \
+      if (!(expr)) { lf_print_error_and_exit("At " PRINTF_TIME "s, "PRINTF_TIME"ns Validation failed: %s at %s:%d", lf_time_logical_elapsed()/SEC(1), lf_time_logical_elapsed() % SEC(1), #expr, __FILE__, __LINE__); } \
+    } while(0) 
+    
+  =}
+}

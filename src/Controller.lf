@@ -1,0 +1,64 @@
+target C
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor Controller {
+  input ped_request:bool
+  output ped_color: int
+  output car_color: int
+  
+
+  // Excercise 1
+  // Implement the startup reaction for the Controller reactor.
+  reaction(startup) -> ped_color, car_color {=
+    // TODO: Implement startup reaction. 
+    //  - Set the initial color of the pedestrian light to STATE_RED
+    //  - Set the initial color of the car light to STATE_GREEN
+    // TODO: Add link to lf_set and startup
+    lf_set(ped_color, STATE_RED);
+    lf_set(car_color, STATE_GREEN);
+  =}
+
+  // Excercise 2
+  // Handle a single pedestrian request. The pedestrian light should
+  // change to green and the car light should change to red after 1 sec.
+  // The pedestrian light should change to green after 1 additional second
+  // and stay green for 10 seconds before changing back to red. The
+  // car light should then change to green after 1 additional seconds.
+  logical action change_car_light: int 
+  logical action change_ped_light: int
+  state pedestrian_waiting: bool = false;
+  reaction(ped_request) -> change_car_light, change_ped_light {=
+    if (self->pedestrian_waiting) {
+      return;
+    }
+
+    self->pedestrian_waiting = true;
+    lf_schedule_int(change_car_light, SEC(1), STATE_RED);
+    lf_schedule_int(change_ped_light, SEC(2), STATE_GREEN);
+
+    lf_schedule_int(change_ped_light, SEC(10) + SEC(2), STATE_RED);
+    lf_schedule_int(change_car_light, SEC(10) + SEC(3), STATE_GREEN);
+  =}
+
+  reaction(change_car_light) -> car_color {=
+    lf_set(car_color, change_car_light->value);
+
+    if (change_car_light->value == STATE_GREEN) {
+      self->pedestrian_waiting = false;
+    }
+  =}
+
+  reaction(change_ped_light) -> ped_color {=
+    lf_set(ped_color, change_ped_light->value);
+  =}
+
+  // Excercise 3
+  // Drop requests if the pedestrian light is already green.
+  // TODO: Improve
+
+
+  // Exercise 4
+}

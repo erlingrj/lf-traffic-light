@@ -1,0 +1,32 @@
+target C {
+  keepalive: false,
+}
+
+import PedestrianTrafficLight, CarTrafficLight from "../lib/TrafficLight.lf"
+import TestHarness from "../lib/TestHarness.lf"
+import Controller from "../Controller.lf"
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor TestHarness1 extends TestHarness {
+  reaction(startup, ped_color, car_color) {=
+    // TODO: Implement implementaion
+    lf_print("hello");
+    lf_request_stop();
+  =}
+}
+
+
+main reactor {
+  ped_light = new PedestrianTrafficLight()
+  car_light = new CarTrafficLight()
+  controller = new Controller()
+  test_harness = new TestHarness1()
+
+  ped_light.request -> controller.ped_request
+  controller.ped_color, controller.car_color -> ped_light.color, car_light.color
+  controller.ped_color, controller.car_color -> test_harness.ped_color, test_harness.car_color
+  test_harness.ped_request -> ped_light.ped_request
+}
