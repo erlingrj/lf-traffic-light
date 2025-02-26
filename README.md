@@ -4,7 +4,7 @@ Build an Lingua Franca-based traffic light controller!
 ![](doc/image.png)
 
 ## Prerequisits
-- A Linux or MacOS OS (or download THIS VM) #TODO:
+- A Linux or MacOS OS or download a VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
 - git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`
@@ -54,10 +54,14 @@ code --install-extension lf-lang.vscode-lingua-franca
 
 
 ## Getting started (VM)
-Download the Ubuntu24.04 VM here, username and password is both `ubuntu`.
+Download a preconfigured Ubuntu VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
+The username and password is both `ubuntu`.
+
+After logging in, fetch the most recent changes to the tutorial and verify the setup.
 
 ```sh
 cd ~/lf-traffic-light
+git pull
 make all
 ```
 
