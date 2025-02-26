@@ -13,15 +13,15 @@ reactor Controller {
   logical action set_car_light: int
 
   reaction(startup) -> ped_color, car_color {=
-    lf_set(ped_color, STATE_RED);
-    lf_set(car_color, STATE_GREEN);
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_GREEN);
   =}
   
   reaction(ped_request) -> set_car_light, set_pedestrian_light, ped_color, car_color {=
-    lf_schedule_int(set_car_light, SEC(1), STATE_RED);
-    lf_schedule_int(set_pedestrian_light, SEC(2), STATE_GREEN);
-    lf_schedule_int(set_pedestrian_light, SEC(12), STATE_RED);
-    lf_schedule_int(set_car_light, SEC(13), STATE_GREEN);
+    lf_schedule_int(set_car_light, SEC(1), LIGHT_RED);
+    lf_schedule_int(set_pedestrian_light, SEC(2), LIGHT_GREEN);
+    lf_schedule_int(set_pedestrian_light, SEC(12), LIGHT_RED);
+    lf_schedule_int(set_car_light, SEC(13), LIGHT_GREEN);
   =}
 
   reaction(set_pedestrian_light) -> ped_color {=

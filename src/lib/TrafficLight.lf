@@ -6,9 +6,9 @@ preamble {=
 
 
   #define ACTUATE_LIGHT(light, color) \
-    if (color == STATE_RED) { \
+    if (color == LIGHT_RED) { \
       lf_print("### " PRINTF_TIME "s "PRINTF_TIME"ns %s: RED", lf_time_logical_elapsed()/SEC(1), lf_time_logical_elapsed() % SEC(1), #light); \
-    } else if (color == STATE_GREEN) { \
+    } else if (color == LIGHT_GREEN) { \
       lf_print("### " PRINTF_TIME "s "PRINTF_TIME"ns %s: GREEN", lf_time_logical_elapsed()/SEC(1), lf_time_logical_elapsed() % SEC(1), #light); \
     } else { \
       lf_print_error_and_exit("Tried to acutate light with invalid value %d", color); \

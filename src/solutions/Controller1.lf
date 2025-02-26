@@ -10,7 +10,7 @@ reactor Controller {
   output car_color: int
 
   reaction(startup) -> ped_color, car_color {=
-    lf_set(ped_color, STATE_RED);
-    lf_set(car_color, STATE_GREEN);
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_GREEN);
   =}
 }
