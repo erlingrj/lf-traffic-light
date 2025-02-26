@@ -8,6 +8,8 @@ Build an Lingua Franca-based traffic light controller!
 - git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`
+- GNU make
+- curl
 - Java 17 (or greater) (`sudo apt install openjdk-17-jdk` or `brew install openjdk@17`)
 
 ## Getting started (native)
