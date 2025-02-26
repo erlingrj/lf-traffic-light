@@ -1,0 +1,22 @@
+target C {
+  keepalive: false,
+  build-type: Debug,
+  fast: true
+}
+
+import PedestrianTrafficLight, CarTrafficLight from "../../lib/TrafficLight.lf"
+import TestHarness1 from "../../test/TestExercise3.lf"
+import Controller from "../Controller4.lf"
+
+main reactor {
+  ped_light = new PedestrianTrafficLight()
+  car_light = new CarTrafficLight()
+  controller = new Controller()
+  test_harness = new TestHarness1()
+
+  ped_light.request -> controller.ped_request
+  controller.ped_color, controller.car_color -> ped_light.color, car_light.color
+  controller.ped_color, controller.car_color -> test_harness.ped_color, test_harness.car_color
+  test_harness.ped_request -> ped_light.ped_request
+}
+

@@ -9,13 +9,10 @@ reactor Controller {
   output ped_color: int
   output car_color: int
   
-
   // Excercise 1
   // Implement the startup reaction for the Controller reactor.
   reaction(startup) -> ped_color, car_color {=
-    // TODO: Implement startup reaction. 
     //  - Set the initial color of the pedestrian light to LIGHT_RED
     //  - Set the initial color of the car light to LIGHT_GREEN
-    // TODO: Add link to lf_set and startup
   =}
 }

@@ -4,7 +4,7 @@ Build an Lingua Franca-based traffic light controller! Go directly to the exerci
 ![](doc/image.png)
 
 ## Prerequisits
-- A Linux or MacOS OS or download a VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
+- A Linux or MacOS OS. For Windows users, either use WSL or download a VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
 - git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`

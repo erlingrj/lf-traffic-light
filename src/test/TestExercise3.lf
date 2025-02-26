@@ -14,10 +14,20 @@ preamble {=
 
 reactor TestHarness1 extends TestHarness {
 
-  timer t1(0)
-  timer t2(1 msec)
-  timer t3(2 msec)
-  reaction(t1,t2,t3) -> ped_request {=
+  logical action a
+
+  reaction(startup) -> a {=
+    lf_schedule(a, SEC(0));
+    lf_schedule(a, SEC(1));
+    lf_schedule(a, SEC(2));
+    lf_schedule(a, SEC(8));
+    lf_schedule(a, SEC(10));
+    lf_schedule(a, SEC(12));
+    lf_schedule(a, SEC(13));
+    lf_schedule(a, SEC(14));
+  =}
+
+  reaction(a) -> ped_request {=
     lf_set(ped_request, true);
   =}
 
@@ -25,6 +35,7 @@ reactor TestHarness1 extends TestHarness {
   state last_event_time: time = 0
 
   reaction(ped_color, car_color) {=
+    // lf_print(PRINTF_TIME "s " PRINTF_TIME "ns ped_color: %d, car_color: %d\n", lf_time_logical_elapsed()/SEC(1), lf_time_logical_elapsed() % SEC(1), ped_color->value, car_color->value);
     interval_t time_since_last_change = lf_time_logical() - self->last_event_time;
     switch(self->cnt) {
       case 0:
@@ -32,27 +43,37 @@ reactor TestHarness1 extends TestHarness {
         validate(ped_color->value == LIGHT_RED);
         break;
       case 1:
+      case 5:
         validate(car_color->value == LIGHT_RED);
         validate(ped_color->value == LIGHT_RED);
         break;
       case 2:
+      case 6:
         validate(car_color->value == LIGHT_RED);
         validate(ped_color->value == LIGHT_GREEN);
         validate(time_since_last_change == SEC(1));
         break;
       case 3:
+      case 7:
         validate(car_color->value == LIGHT_RED);
         validate(ped_color->value == LIGHT_RED);
         validate(time_since_last_change == SEC(10));
         break;
       case 4:
+      case 8:
         validate(car_color->value == LIGHT_GREEN);
         validate(ped_color->value == LIGHT_RED);
         validate(time_since_last_change == SEC(1));
         break;
+      default:
+        validate(false);
     }
     self->cnt++;
     self->last_event_time = lf_time_logical();
+  =}
+
+  reaction(shutdown) {=
+    validate(self->cnt == 9);
   =}
 }
 

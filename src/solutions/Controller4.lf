@@ -1,0 +1,63 @@
+target C
+
+preamble {=
+  #include "traffic_light.h"
+=}
+
+reactor Controller {
+  input ped_request:bool
+  output ped_color: int
+  output car_color: int
+
+  reaction(startup) -> ped_color, car_color {=
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_GREEN);
+  =}
+
+
+initial mode m_car_green{
+  reaction(reset) -> ped_color, car_color {=
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_GREEN);
+  =}
+
+  reaction(ped_request) -> reset(m_change_to_pedestrian) {=
+    lf_set_mode(m_change_to_pedestrian);
+  =}
+}
+
+mode m_change_to_pedestrian {
+  timer t1(1 sec)
+  reaction(reset) -> ped_color, car_color {=
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_RED);
+  =}
+  reaction(t1) -> reset(m_pedestrian_green) {=
+    lf_set_mode(m_pedestrian_green);
+  =}
+}
+
+mode  m_pedestrian_green {
+  timer t2(10 sec)
+  reaction(reset) -> ped_color, car_color {=
+    lf_set(ped_color, LIGHT_GREEN);
+    lf_set(car_color, LIGHT_RED);
+  =}
+
+  reaction(t2) -> reset(m_change_to_car) {=
+    lf_set_mode(m_change_to_car);
+   =}
+}
+
+mode m_change_to_car {
+  timer t3(1 sec)
+  reaction(reset) -> ped_color, car_color {=
+    lf_set(ped_color, LIGHT_RED);
+    lf_set(car_color, LIGHT_RED);
+  =}
+  reaction(t3) -> reset(m_car_green) {=
+    lf_set_mode(m_car_green);
+  =}
+}
+
+}
