@@ -14,6 +14,7 @@ Build a Lingua Franca based traffic light controller! Go directly to the exercis
   - Ubuntu: `sudo apt install openjdk-17-jdk`
   - macOS `brew install openjdk@17` or `sudo port install openjdk17`
   - Or download here: https://www.oracle.com/java/technologies/downloads/#java17
+
 For more information on the prerequisites, see https://www.lf-lang.org/docs/installation
 
 ## Getting started
