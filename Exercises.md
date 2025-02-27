@@ -24,7 +24,7 @@ the play button or running:
 
 ```sh
 lfc src/test/TestExercise1.lf
-bin TestExercise1
+bin/TestExercise1
 ```
 
 It will naturally fail.
