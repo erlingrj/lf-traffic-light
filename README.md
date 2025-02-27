@@ -4,17 +4,61 @@ Build an Lingua Franca-based traffic light controller! Go directly to the exerci
 ![](doc/image.png)
 
 ## Prerequisits
-- A Linux or MacOS OS. For Windows users, either use WSL or download a VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
+- Linux, macOS  os Windows Subsystem for Linux (WSL). A Ubuntu VM with everything installed can also be downloaded [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
 - git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`
 - GNU make
-- curl
 - Java 17 (or greater) (`sudo apt install openjdk-17-jdk` or `brew install openjdk@17`)
 
-## Getting started (native)
+## Getting started
 
-### Install the Lingua Franca Compiler
+### 1. Clone this repo
+
+```sh
+git clone git@github.com:erlingrj/lf-traffic-light.git
+```
+
+or 
+
+```sh
+git clone https://github.com/erlingrj/lf-traffic-light.git
+```
+
+### 2. VSCode extension (recommended)
+Install Microsoft VSCode (https://code.visualstudio.com/).
+
+Open the cloned repo in VSCode, e.g. in the same terminal as
+you ran the git clone command, do:
+```sh
+code lf-traffic-light
+```
+
+Navigate to the Extension Marketplace:
+
+<img src="doc/extension.png" alt="Extension" width="200px">
+
+Find and install the Lingua Franca extension:
+
+![](doc/lf-extension.png)
+
+Open [HelloWorld.lf](src/HelloWorld.lf)
+
+Inspect the auto-generated diagram by pressing this button:
+![](doc/diagram.png)
+
+And run the program by pressing the Play button
+![](doc/run.png)
+
+The program output is printed to the integrated terminal.
+
+### 2. Command-line tools (optional)
+
+If you have installed VSCode and the extension, you can skip this section.
+
+If you wish to use another code editor, or just want to
+interact directly with the command line tools, they can
+be installed by our convenience install script:
 
 ```sh
 curl -Ls https://install.lf-lang.org | bash -s cli
@@ -27,33 +71,28 @@ adding the following to the end of your `~/.bashrc`
 export PATH=$PATH:$HOME/.local/bin
 ```
 
-
-### Clone this repo
-
+Now you can manually compile the [HelloWorld.lf](src/HelloWorld.lf) from the command line with:
 ```sh
-git clone git@github.com:erlingrj/lf-traffic-light.git
+lfc src/HelloWorld.lf
 ```
 
-or 
-
+Run the resulting binary with
 ```sh
-git clone https://github.com/erlingrj/lf-traffic-light.git
+bin/HelloWorld
 ```
 
-### Verify tool setup
+Generate the diagram by:
+```sh
+lfd src/HelloWorld.lf
+```
+
+This will produce an SVG called HelloWorld.svg.
+
+Finally, you can verify that everything is correctly 
+installed with:
 ```sh
 make all
-```
-
-### Editor support (optional)
-Although any text editor will work, we recommend to use VSCode. A Lingua Franca extension can be
-installed either by searching for "Lingua Franca" on the Extension Marketplace, or run the following
-command from a terminal
-
-```sh
-code --install-extension lf-lang.vscode-lingua-franca
-```
-
+``` 
 
 ## Getting started (VM)
 Download a preconfigured Ubuntu VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
@@ -72,5 +111,4 @@ VScode will be installed with the Lingua Franca extension so you can interact wi
 
 ## Exercises
 Now that your setup is done and verified you can move on to the actual [exercises](Exercises.md)
-
 

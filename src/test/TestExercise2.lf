@@ -47,9 +47,15 @@ reactor TestHarness1 extends TestHarness {
         validate(ped_color->value == LIGHT_RED);
         validate(time_since_last_change == SEC(1));
         break;
+      default:
+        validate(false);
     }
     self->cnt++;
     self->last_event_time = lf_time_logical();
+  =}
+
+  reaction(shutdown) {=
+    validate(self->cnt == 5);
   =}
 }
 
