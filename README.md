@@ -94,9 +94,9 @@ installed with:
 make all
 ``` 
 
-## Getting started (VM)
+### 2. Ubuntu VM (If nothing else works)
 Download a preconfigured Ubuntu VM [here](https://drive.google.com/file/d/1KwzQl56MlyBVLrJKngAE6ahd7eTb2c8X/view?usp=sharing)
-The username and password is both `ubuntu`.
+The username and password are both `ubuntu`.
 
 After logging in, fetch the most recent changes to the tutorial and verify the setup.
 
