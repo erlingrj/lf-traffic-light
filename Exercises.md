@@ -143,8 +143,8 @@ bin/Main
 
 Verify your implementation with:
 ```sh
-lfc src/test/TestExercise3.lf
-bin/TestExercise3
+lfc src/test/TestExercise4.lf
+bin/TestExercise4
 ```
 
 ### References
