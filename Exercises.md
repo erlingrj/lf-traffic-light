@@ -2,24 +2,25 @@
 
 ## Introduction
 
-I these exercises you will build a simple traffic light controller in the Lingua Franca C-target. Through three exercises you will incrementally build the timed
+In these exercises, you will build a simple traffic light controller in the Lingua Franca C-target. Through three exercises, you will incrementally build the timed
 behavior required of a traffic light controller.
 
-To run your controller do:
+To run your controller, either press the play button in VSCode while [Main.lf](src/Main.lf) is open, or do:
 ```sh
 lfc src/Main.lf
 bin/Main
 ```
 
-The state of the two lights will be printed to the terminal, to request a 
+The state of the two lights will be printed to the terminal to request a 
 green light for the pedestrian, hit `Enter` in the terminal window.
 
 Nothing happens? This is because it is your job to implement the controller!
 
-To validate your controller for each exercise we provide a simple test harness,
+To validate your controller for each exercise, we provide a simple test harness,
 that simulates pedestrian requests and asserts the correct behavior of the lights.
 
-You can try running the test program from exercise already:
+You can try running the test program from the exercise already, either by pressing
+the play button or running:
 
 ```sh
 lfc src/test/TestExercise1.lf
@@ -34,13 +35,14 @@ Refer to the [LF Handbook](https://www.lf-lang.org/docs/) for documentation on
 the LF syntax and target language API. 
 
 
-## Exercise 0: Hello World!
+## Exercise 0: Hello, World!
+Before starting, make sure that your setup works by compiling and running 
 
 ## Exercise 1: Initialize correctly
-Open the [Main.lf](src/Main.lf) and inspect the generated diagrams. Here you will
+Open the [Main.lf](src/Main.lf) and inspect the generated diagrams. Here, you will
 see the structure of the program. There are three reactors 
 a CarTrafficLight and PedestrianTrafficLight, both imported from [TrafficLight.lf](src/lib/TrafficLight.lf), these files
-should not be modified and emulate the actuators at an actual traffic light. Your job is to finish the last reactor, [Controller.lf](src/Controller.lf). This reactor has an input port where pedestrian requests will arrive, and two output port, one to each of the lights setting their color.
+should not be modified and emulate the actuators at an actual traffic light. Your job is to finish the last reactor, [Controller.lf](src/Controller.lf). This reactor has an input port where pedestrian requests will arrive and two output ports, one to each of the lights setting their color.
 
 The first exercise is to properly initialize the system. The initial state of the system should be that the car light is in `LIGHT_GREEN` and the pedestrian light is in `LIGHT_RED`.
 
@@ -65,7 +67,7 @@ bin/TestExercise1
 
 ## Exercise 2: Handle requests
 This traffic light is not very functional since it does not handle pedestrian requests yet. Your next task is to
-handle events on the `ped_request` input port. Upon receiving such an event at time=`t`, the controller should do the following.
+handle events on the `ped_request` input port. Upon receiving such an event at `time=t`, the controller should do the following.
 - At `t + 1sec`, switch the CarTrafficLight to red
 - At `t + 2sec`, switch the PedestrianTrafficLight to green.
 - At `t + 12sec`, switch the PedestrianTrafficLight back to red.
@@ -85,7 +87,7 @@ reaction(a) {=
 =}
 ```
 
-Here, the an event with value 42 is scheduled 100 msec into the future. A reaction can declare
+Here, an event with value 42 is scheduled 100 msec into the future. A reaction can declare
 an action as a trigger and access its value. The program above will print "Got 42" 100 msec after startup.
 
 
@@ -108,7 +110,7 @@ bin/TestExercise2
 ## Exercise 3: Throttling!
 
 If you are practicing Test-Driven Development and came up with the minimal implementation passing the test,
-you will now have a more functional, but still not really working, traffic light controller. You need to also
+you will now have a more functional, but still not really working, traffic light controller. You also need to
 handle the scenario when a pedestrian repeatedly presses the button.
 
 If the pedestrian presses the button at time `t`, then the controller shall discard any requests arriving up until and including `t + 13 sec`, which is the time the controller turns the CarLight back to green again.  
@@ -130,8 +132,8 @@ bin/TestExercise3
 
 ## Exercise 4: Modal reactors
 
-Representing a reactor which has several modes of operation can be captured with Modal Reactors. In this exercise,
-you will rewrite the Controller reactor using modes instead of the state variable and possibly several actions.
+A reactor that has several modes of operation can be captured with Modal Reactors. In this exercise,
+You will rewrite the Controller reactor using modes instead of the state variable and possibly several actions.
 
 Run the program:
 ```sh
