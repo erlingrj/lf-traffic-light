@@ -150,7 +150,7 @@ reactor Modal {
 }
 ```
 
-When in a particular mode, only reactions defined within that mode (or defined outside all modes) are executes. As such you can
+When in a particular mode, only reactions defined within that mode (or defined outside all modes) are executed. As such you can
 decide how to (or not to) react to inputs by creating different reactions triggered by this input in different reactions.
 ```
 reactor Modal {
