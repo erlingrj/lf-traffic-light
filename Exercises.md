@@ -139,7 +139,7 @@ in the startup reaction.
 
 ```
 reactor Modal {
-  inital mode m_first {
+  initial mode m_first {
     reaction(startup) -> m_second {=
       lf_set_mode(m_second);
     =}
@@ -156,7 +156,7 @@ decide how to (or not to) react to inputs by creating different reactions trigge
 reactor Modal {
  input in: int 
  output out: int
- inital mode m_multiply_by_2 {
+ initial mode m_multiply_by_2 {
     reaction(in) -> out {=
       lf_set(out, in->value * 2);
     =}
@@ -177,7 +177,7 @@ A special trigger called `reset` will also be present the very first logical ins
 reactor Modal {
  input in: int 
  output out: int
- inital mode m_accepting {
+ initial mode m_accepting {
     reaction(reset) {=
       // Invoked when we transition back to m_accepting
     =}
