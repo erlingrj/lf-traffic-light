@@ -126,7 +126,7 @@ reactor R {
 ```
 
 
-Compile and run [TestExercise2](src/test/TestExercise3.lf) to verify your solution.
+Compile and run [TestExercise3](src/test/TestExercise3.lf) to verify your solution.
 
 
 ## Exercise 4: Modal reactors
@@ -205,7 +205,7 @@ This program performs reset transitions between the two modes. The `reaction(res
 is marked for automatic reset and the runtime sets it back to 0 upon a mode transition to `m_processing`.
 
 Run the program:
-Compile and run [TestExercise2](src/test/TestExercise4.lf) to verify your solution.
+Compile and run [TestExercise4](src/test/TestExercise4.lf) to verify your solution.
 
 ### References
 - [Modal Reactors](https://www.lf-lang.org/docs/writing-reactors/modal-models)
