@@ -1,5 +1,5 @@
 target C {
-  keepalive: false,
+  keepalive: true,
   files: "lib/traffic_light.h"
 }
 
