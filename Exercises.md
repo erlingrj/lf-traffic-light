@@ -46,14 +46,14 @@ should not be modified and emulate the actuators at an actual traffic light. You
 
 The first exercise is to properly initialize the system. The initial state of the system should be that the car light is in `LIGHT_GREEN` and the pedestrian light is in `LIGHT_RED`, both of which are provided compile definition that expand to integers. To write to output ports within a reaction, use `lf_set(OutputPortName, Value);`. 
 
-Run your implementation:
+Run your implementation, press Play or run from the terminal with:
 
 ```sh
 lfc src/Main.lc
 bin/Main
 ```
 
-Verify your implementation with:
+Verify your implementation with opening [TestExercise1.lf](src/test/TestExercise1.lf) and pressing play, or from the command line:
 
 ```sh
 lfc src/test/TestExercise1.lf
@@ -100,18 +100,7 @@ reaction(startup) -> a {=
 =}
 ```
 
-Run the program:
-```sh
-lfc src/Main.lc
-bin/Main
-```
-
-Verify your implementation with:
-
-```sh
-lfc src/test/TestExercise2.lf
-bin/TestExercise2
-```
+Compile and run [TestExercise2](src/test/TestExercise2.lf) to verify your solution.
 
 ### References
 - [Actions](https://www.lf-lang.org/docs/reference/target-language-details#actions)
@@ -137,17 +126,8 @@ reactor R {
 ```
 
 
-Run the program:
-```sh
-lfc src/Main.lc
-bin/Main
-```
+Compile and run [TestExercise2](src/test/TestExercise3.lf) to verify your solution.
 
-Verify your implementation with:
-```sh
-lfc src/test/TestExercise3.lf
-bin/TestExercise3
-```
 
 ## Exercise 4: Modal reactors
 
@@ -225,16 +205,7 @@ This program performs reset transitions between the two modes. The `reaction(res
 is marked for automatic reset and the runtime sets it back to 0 upon a mode transition to `m_processing`.
 
 Run the program:
-```sh
-lfc src/Main.lc
-bin/Main
-```
-
-Verify your implementation with:
-```sh
-lfc src/test/TestExercise4.lf
-bin/TestExercise4
-```
+Compile and run [TestExercise2](src/test/TestExercise4.lf) to verify your solution.
 
 ### References
 - [Modal Reactors](https://www.lf-lang.org/docs/writing-reactors/modal-models)
