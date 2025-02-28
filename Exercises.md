@@ -44,7 +44,7 @@ see the structure of the program. There are three reactors
 a CarTrafficLight and PedestrianTrafficLight, both imported from [TrafficLight.lf](src/lib/TrafficLight.lf), these files
 should not be modified and emulate the actuators at an actual traffic light. Your job is to finish the last reactor, [Controller.lf](src/Controller.lf). This reactor has an input port where pedestrian requests will arrive and two output ports, one to each of the lights setting their color.
 
-The first exercise is to properly initialize the system. The initial state of the system should be that the car light is in `LIGHT_GREEN` and the pedestrian light is in `LIGHT_RED`.
+The first exercise is to properly initialize the system. The initial state of the system should be that the car light is in `LIGHT_GREEN` and the pedestrian light is in `LIGHT_RED`, both of which are provided compile definition that expand to integers. To write to output ports within a reaction, use `lf_set(OutputPortName, Value);`. 
 
 Run your implementation:
 
@@ -90,6 +90,15 @@ reaction(a) {=
 Here, an event with value 42 is scheduled 100 msec into the future. A reaction can declare
 an action as a trigger and access its value. The program above will print "Got 42" 100 msec after startup.
 
+Several future events can be scheduled on an action. E.g. this code creates an additional event in 200 msec with
+the value 38.
+
+```
+reaction(startup) -> a {=
+  lf_schedule_int(a, MSEC(100), 42);
+  lf_schedule_int(a, MSEC(200), 32);
+=}
+```
 
 Run the program:
 ```sh
@@ -116,7 +125,17 @@ handle the scenario when a pedestrian repeatedly presses the button.
 If the pedestrian presses the button at time `t`, then the controller shall discard any requests arriving up until and including `t + 13 sec`, which is the time the controller turns the CarLight back to green again.  
 
 The easiest way to achieve this is to introduce a state variable to the Controller reactor. Reactions within a reactor
-can all read and write to the state variable of the reactor.
+can all read and write to the state variable of the reactor. In the following program a state variable `cnt` is defined and modified from a 
+reaction. State variables can be accessed from the C code through the `self->` pointer.
+
+```
+reactor R {
+  state cnt: int = 0
+  reaction(startup) {=
+    self->cnt++;
+   =}
+```
+
 
 Run the program:
 ```sh
@@ -134,6 +153,76 @@ bin/TestExercise3
 
 A reactor that has several modes of operation can be captured with Modal Reactors. In this exercise,
 You will rewrite the Controller reactor using modes instead of the state variable and possibly several actions.
+
+Mode changes are done from reactions, and reactions declare mode switches as effects. The following code switches from `m_first` to `m_second`
+in the startup reaction.
+
+```
+reactor Modal {
+  inital mode m_first {
+    reaction(startup) -> m_second {=
+      lf_set_mode(m_second);
+    =}
+  }
+  mode Second {
+  ...
+  }
+}
+```
+
+When in a particular mode, only reactions defined within that mode (or defined outside all modes) are executes. As such you can
+decide how to (or not to) react to inputs by creating different reactions triggered by this input in different reactions.
+```
+reactor Modal {
+ input in: int 
+ output out: int
+ inital mode m_multiply_by_2 {
+    reaction(in) -> out {=
+      lf_set(out, in->value * 2);
+    =}
+  }
+  mode m_divide_by_3 {
+    reaction(in) -> out {=
+      lf_set(out, in->value / 3);
+    =}
+  }
+}
+```
+
+A mode can either be changed with a reset transition or a history transition. For simplicity, we will only consider reset transitions.
+With a reset transition, the mode is reset each time it is transitioned, timers will be reset and start triggering relative to the current logical time.
+A special trigger called `reset` will also be present the very first logical instance of the mode. Finally, state variables within the mode that is marked for automatic reset will be set back to their initial value.
+
+```
+reactor Modal {
+ input in: int 
+ output out: int
+ inital mode m_accepting {
+    reaction(reset) {=
+      // Invoked when we transition back to m_accepting
+    =}
+
+    reaction(in) -> reset(m_processing) {=
+      lf_set_mode(m_processing);
+    =}
+  }
+  mode m_processing {
+    reset state cnt: int = 0
+    logical action a
+    reaction(reset) -> a {=
+      // self->cnt is always 0 here.
+      lf_schedule(a, MSEC(300));
+  
+    =}
+    reaction(a) -> reset(m_accepting) {=
+      lf_set_mode(m_accepting);
+      self->cnt = 24;
+    =}
+  }
+}
+```
+This program performs reset transitions between the two modes. The `reaction(reset)` reactions are triggered on mode switches. The state variable `cnt` 
+is marked for automatic reset and the runtime sets it back to 0 upon a mode transition to `m_processing`.
 
 Run the program:
 ```sh
